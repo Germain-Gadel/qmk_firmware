@@ -18,6 +18,7 @@
 
 enum layers {
     _QWERTY,
+    _COLEMAK,
     _FROW,
     _SYMBOLS,
     _ARROWS,
@@ -26,6 +27,11 @@ enum layers {
 };
 
 enum custom_keycodes {
+    QWERTY = SAFE_RANGE,
+    COLEMAK,
+};
+
+enum {
     TD_Q_ESC
 };
 
@@ -38,6 +44,7 @@ enum custom_keycodes {
 #define LGUIT_X LGUI_T(KC_C)
 #define ALT_V LALT_T(KC_V)
 #define ALT_M RALT_T(KC_M)
+#define ALT_F12 RALT_T(KC_F12)
 #define GUI_COMM RGUI_T(KC_COMM)
 #define CLT_DOT RCTL_T(KC_DOT)
 #define SFT_SLH RSFT_T(KC_SLSH)
@@ -65,23 +72,42 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                      FN1,     FN2,    KC_SPC,  KC_BSPC, FN3,     FN4
 ),
 
+/*
+ * ,----------------------------------.        ,----------------------------------.
+ * |   Q  |   W  |   F  |   P  |   G  |        |   J  |   L  |   U  |   Y  |   ;  |
+ * |------+------+------+------+------|        |------+------+------+------+------|
+ * |   A  |   R  |   S  |   T  |   D  |        |   H  |   N  |   E  |   I  |   O  |
+ * |------+------+------+------+------|        |------+------+------+------+------|
+ * |   Z  |   X  |   C  |   V  |   B  |        |   K  |   M  |   ,  |   .  |   /  |
+ * `-------------+------+------+------|        |------+------+------+-------------'
+ *               |  Fn1 |  Fn2 | Space|        | Bspc |  Fn3 |  Fn4 |
+ *               `--------------------'        `--------------------'
+ */
+
+[_COLEMAK] = LAYOUT_split_3x5_3(
+    Q_ESC,   KC_W,    KC_F,    KC_P,    KC_G,    KC_J,    KC_L,    KC_U,     KC_Y,    KC_SCLN,
+    KC_A,    KC_R,    KC_S,    KC_T,    KC_D,    KC_H,    KC_N,    KC_E,     KC_I,    KC_O,
+    SFT_Z,   CTL_X,   LGUIT_X, ALT_V,   KC_B,    KC_K,    ALT_M,   GUI_COMM, CLT_DOT, SFT_SLH,
+                      FN1,     FN2,     KC_SPC,  KC_BSPC, FN3,     FN4
+),
+
 /* F row
  * ,----------------------------------.        ,----------------------------------.
  * |   0  |   7  |   8  |   9  |      |        |  F1  |  F2  |  F3  |  F4  |  F5  |
  * |------+------+------+------+------|        |------+------+------+------+------|
  * |      |   4  |   5  |   6  |   =  |        |  F6  |  F7  |  F8  |  F9  |  F10 |
  * |------+------+------+------+------|        |------+------+------+------+------|
- * |      |   1  |   2  |   3  |   -  |        |  F11 |  F12 |      |      |      |
+ * |      |   1  |   2  |   3  |   -  |        |  F11 | AF12 |      |      |      |
  * `-------------+------+------+------|        |------+------+------+-------------'
  *               |   .  |      |      |        |      |      |      |
  *               `--------------------'        `--------------------'
 */
 
 [_FROW] = LAYOUT_split_3x5_3(
-    KC_0,     KC_7,  KC_8,  KC_9,   KC_TRNS,    KC_F1,  KC_F2,  KC_F3,  KC_F4,   KC_F5,
-    KC_TRNS,  KC_4,  KC_5,  KC_6,   KC_EQUAL,   KC_F6,  KC_F7,  KC_F8,  KC_F9,   KC_F10,
-    KC_TRNS,  KC_1,  KC_2,  KC_3,   KC_MINUS,   KC_F11, KC_F12, KC_TRNS, KC_TRNS, KC_TRNS,
-                        KC_PDOT,  KC_TRNS,   KC_TRNS,    KC_TRNS,  KC_TRNS,  KC_TRNS
+    KC_0,     KC_7,  KC_8,  KC_9,   KC_TRNS,    KC_F1,  KC_F2,   KC_F3,  KC_F4,   KC_F5,
+    KC_TRNS,  KC_4,  KC_5,  KC_6,   KC_EQUAL,   KC_F6,  KC_F7,   KC_F8,  KC_F9,   KC_F10,
+    KC_TRNS,  KC_1,  KC_2,  KC_3,   KC_MINUS,   KC_F11, ALT_F12, KC_TRNS, KC_TRNS, KC_TRNS,
+                     KC_PDOT, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
 ),
 
 /* Symbols
@@ -124,20 +150,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* Media
  * ,----------------------------------.        ,----------------------------------.
- * | Reset|      |      |      |      |        |      |      |      |      |      |
+ * |QWERTY|      |      | RESET|      |        |      |      |      |      |      |
  * |------+------+------+------+------|        |------+------+------+------+------|
  * |      |      |      |      |      |        |      |      |PTrack| Vol+ |NTrack|
  * |------+------+------+------+------|        |------+------+------+------+------|
- * |      |      |      |      |      |        |      |      | Prev | Vol- | Next |
+ * |      |      |COLEMK|      |      |        |      |      | Prev | Vol- | Next |
  * `-------------+------+------+------|        |------+------+------+-------------'
  *               |      |      |      |        | Play | Mute |      |
  *               `--------------------'        `--------------------'
  */
 
 [_MEDIA] = LAYOUT_split_3x5_3(
-    RESET,    KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_TRNS,    KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_TRNS,
+    QWERTY,   KC_TRNS,  KC_TRNS,  RESET,     KC_TRNS,    KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_TRNS,
     KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_TRNS,    KC_TRNS,  KC_TRNS,  KC_MRWD,  KC_VOLU,   KC_MFFD,
-    KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_TRNS,    KC_TRNS,  KC_TRNS,  KC_MPRV,  KC_VOLD,   KC_MNXT,
+    KC_TRNS,  KC_TRNS,  COLEMAK,  KC_TRNS,   KC_TRNS,    KC_TRNS,  KC_TRNS,  KC_MPRV,  KC_VOLD,   KC_MNXT,
                         KC_TRNS,  KC_TRNS,   KC_TRNS,    KC_MPLY,  KC_MUTE,  KC_TRNS
 ),
 
@@ -168,10 +194,10 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 
 #ifdef OLED_ENABLE
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
-  if (!is_keyboard_master()) {
-    return OLED_ROTATION_180;  // flips the display 180 degrees if offhand
-  }
-  return rotation;
+    if (!is_keyboard_master()) {
+        return OLED_ROTATION_180;  // flips the display 180 degrees if offhand
+    }
+    return rotation;
 }
 
 void oled_render_logo(void) {
@@ -187,4 +213,23 @@ bool oled_task_user(void) {
     oled_render_logo();
     return false;
 }
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case QWERTY:
+            if (record->event.pressed) {
+                set_single_persistent_default_layer(_QWERTY);
+            }
+            return false;
+            break;
+        case COLEMAK:
+            if (record->event.pressed) {
+                set_single_persistent_default_layer(_COLEMAK);
+            }
+            return false;
+            break;
+    }
+    return true;
+}
+
 #endif // OLED_ENABLE
