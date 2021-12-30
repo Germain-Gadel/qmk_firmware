@@ -19,8 +19,8 @@
 enum layers {
     _QWERTY,
     _COLEMAK,
-    _FROW,
-    _SYMBOLS,
+    _NUM,
+    _SYM,
     _ARROWS,
     _MEDIA,
     _NAV
@@ -29,14 +29,16 @@ enum layers {
 enum custom_keycodes {
     QWERTY = SAFE_RANGE,
     COLEMAK,
+    INFO,
+    CLEAR_O
 };
 
 enum {
     TD_Q_ESC
 };
 
-#define FN1 LT(_SYMBOLS, KC_ESC)
-#define FN2 LT(_FROW, KC_TAB)
+#define FN1 LT(_SYM, KC_ESC)
+#define FN2 LT(_NUM, KC_TAB)
 #define FN3 MO(_ARROWS)
 #define FN4 LT(_MEDIA, KC_ENT)
 #define SFT_Z LSFT_T(KC_Z)
@@ -103,7 +105,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *               `--------------------'        `--------------------'
 */
 
-[_FROW] = LAYOUT_split_3x5_3(
+[_NUM] = LAYOUT_split_3x5_3(
     KC_0,     KC_7,  KC_8,  KC_9,   KC_TRNS,    KC_F1,  KC_F2,   KC_F3,  KC_F4,   KC_F5,
     KC_TRNS,  KC_4,  KC_5,  KC_6,   KC_EQUAL,   KC_F6,  KC_F7,   KC_F8,  KC_F9,   KC_F10,
     KC_TRNS,  KC_1,  KC_2,  KC_3,   KC_MINUS,   KC_F11, ALT_F12, KC_TRNS, KC_TRNS, KC_TRNS,
@@ -122,7 +124,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *               `--------------------'        `--------------------'
  */
 
-[_SYMBOLS] = LAYOUT_split_3x5_3(
+[_SYM] = LAYOUT_split_3x5_3(
     KC_GRV,   KC_TRNS,  KC_UNDS,  KC_PLUS,   KC_TRNS,    KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_TRNS,
     KC_LCBR,  KC_RCBR,  KC_MINUS, KC_EQUAL,  KC_TRNS,    KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_TRNS,
     KC_LBRC,  KC_RBRC,  KC_LPRN,  KC_RPRN,   KC_TRNS,    KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_TRNS,
@@ -156,7 +158,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------|        |------+------+------+------+------|
  * |      |      |COLEMK|      |      |        |      |      | Prev | Vol- | Next |
  * `-------------+------+------+------|        |------+------+------+-------------'
- *               |      |      |      |        | Play | Mute |      |
+ *               | INFO |CLEARO|      |        | Play | Mute |      |
  *               `--------------------'        `--------------------'
  */
 
@@ -164,7 +166,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     QWERTY,   KC_TRNS,  KC_TRNS,  RESET,     KC_TRNS,    KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_TRNS,
     KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_TRNS,    KC_TRNS,  KC_TRNS,  KC_MRWD,  KC_VOLU,   KC_MFFD,
     KC_TRNS,  KC_TRNS,  COLEMAK,  KC_TRNS,   KC_TRNS,    KC_TRNS,  KC_TRNS,  KC_MPRV,  KC_VOLD,   KC_MNXT,
-                        KC_TRNS,  KC_TRNS,   KC_TRNS,    KC_MPLY,  KC_MUTE,  KC_TRNS
+                        INFO,     CLEAR_O,   KC_TRNS,    KC_MPLY,  KC_MUTE,  KC_TRNS
 ),
 
 /* Navigation
@@ -192,29 +194,111 @@ qk_tap_dance_action_t tap_dance_actions[] = {
     [TD_Q_ESC] = ACTION_TAP_DANCE_DOUBLE(KC_Q, KC_ESC)
 };
 
-#ifdef OLED_ENABLE
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
-    if (!is_keyboard_master()) {
-        return OLED_ROTATION_180;  // flips the display 180 degrees if offhand
+    if (is_keyboard_master()) {
+        return OLED_ROTATION_270;
     }
     return rotation;
 }
 
-void oled_render_logo(void) {
-    static const char PROGMEM crkbd_logo[] = {
-        0x80, 0x81, 0x82, 0x83, 0x84, 0x85, 0x86, 0x87, 0x88, 0x89, 0x8a, 0x8b, 0x8c, 0x8d, 0x8e, 0x8f, 0x90, 0x91, 0x92, 0x93, 0x94,
-        0xa0, 0xa1, 0xa2, 0xa3, 0xa4, 0xa5, 0xa6, 0xa7, 0xa8, 0xa9, 0xaa, 0xab, 0xac, 0xad, 0xae, 0xaf, 0xb0, 0xb1, 0xb2, 0xb3, 0xb4,
-        0xc0, 0xc1, 0xc2, 0xc3, 0xc4, 0xc5, 0xc6, 0xc7, 0xc8, 0xc9, 0xca, 0xcb, 0xcc, 0xcd, 0xce, 0xcf, 0xd0, 0xd1, 0xd2, 0xd3, 0xd4,
-        0};
-    oled_write_P(crkbd_logo, false);
+#    define KEYLOG_LEN 6
+char     keylog_str[KEYLOG_LEN] = {};
+uint8_t  keylogs_str_idx        = 0;
+uint16_t log_timer              = 0;
+
+const char code_to_name[60] = {
+    ' ', ' ', ' ', ' ', 'A', 'B', 'C', 'D', 'E', 'F',
+    'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
+    'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+    '1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
+    'R', 'E', 'B', 'T', '_', '-', '=', '[', ']', '\\',
+    '#', ';', '\'', '`', ',', '.', '/', ' ', ' ', ' '};
+
+void add_keylog(uint16_t keycode) {
+    if ((keycode >= QK_MOD_TAP && keycode <= QK_MOD_TAP_MAX) || (keycode >= QK_LAYER_TAP && keycode <= QK_LAYER_TAP_MAX)) {
+        keycode = keycode & 0xFF;
+    }
+
+    for (uint8_t i = KEYLOG_LEN - 1; i > 0; i--) {
+        keylog_str[i] = keylog_str[i - 1];
+    }
+    if (keycode < 60) {
+        keylog_str[0] = code_to_name[keycode];
+    }
+    keylog_str[KEYLOG_LEN - 1] = 0;
+
+    log_timer = timer_read();
+}
+
+void update_log(void) {
+    if (timer_elapsed(log_timer) > 750) {
+        add_keylog(0);
+    }
+}
+
+void render_keylogger_status(void) {
+    oled_write(keylog_str, false);
+}
+
+void render_default_layer_state(void) {
+    switch (get_highest_layer(default_layer_state)) {
+        case _QWERTY:
+            oled_write_ln_P(PSTR("QWERT"), false);
+            break;
+        case _COLEMAK:
+            oled_write_ln_P(PSTR("COLEM"), false);
+            break;
+    }
+}
+
+void render_layer_state(void) {
+    oled_write_P(PSTR("SY"), layer_state_is(_SYM));
+    oled_write_char(' ', false);
+    oled_write_P(PSTR("NU"), layer_state_is(_NUM));
+    oled_write_P(PSTR("AR"), layer_state_is(_ARROWS));
+    oled_write_char(' ', false);
+    oled_write_P(PSTR("ME"), layer_state_is(_MEDIA));
+    oled_write_ln_P(PSTR("NA"), layer_state_is(_NAV));
+}
+
+void render_mod_status(uint8_t modifiers) {
+    oled_write_P(PSTR("SF"), (modifiers & MOD_MASK_SHIFT));
+    oled_write_char(' ', false);
+    oled_write_P(PSTR("CT"), (modifiers & MOD_MASK_CTRL));
+    oled_write_P(PSTR("GU"), (modifiers & MOD_MASK_GUI));
+    oled_write_char(' ', false);
+    oled_write_ln_P(PSTR("AL"), (modifiers & MOD_MASK_ALT));
+}
+
+static void oled_render_logo(void) {
+    static const char PROGMEM raw_logo[] = {
+        0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,128,128,128,128,128,128,128,128,128,128,128,128,128,128,128,128,128,128,128,128,128,128,128,128,128,128,128,128,  0,  0,  0,255,255,255,131,  3,  3,  3,  7, 31, 63,127,243,227,195,131,  3,  3,  3,  3,  3,  7, 63,255,251,227,  3,  3,255,255,255,  0,  0,255,255,255,  7, 15, 30, 60,120,240,240,224,192,129,  3,  7, 15, 28,120,240,224,192,128,  0,  3, 31, 63,252,255,255,255,  0,
+        0,255,255,255,112,224,224,192,128,128,  0,  1,  3,  7, 15, 30, 30, 60,120,240,225,195,135,143, 62, 60,240,225,255,255,255,  0,  0, 15, 31, 31, 28, 28, 28, 29, 29, 31, 31, 31, 30, 30, 28, 28, 28, 28, 28, 28, 28, 29, 31, 31, 31, 30, 28, 29, 31, 31, 15,  0,
+    };
+    oled_write_raw_P(raw_logo, sizeof(raw_logo));
+}
+
+void render_status_main(void) {
+    render_default_layer_state();
+    render_layer_state();
+    render_mod_status(get_mods());
+    render_keylogger_status();
+    oled_write_ln_P(PSTR(" "), false);
+    oled_render_logo();
 }
 
 bool oled_task_user(void) {
-    oled_render_logo();
+    update_log();
+    if (is_keyboard_master()) {
+        render_status_main();
+    }
     return false;
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    if (record->event.pressed) {
+        add_keylog(keycode);
+    }
     switch (keycode) {
         case QWERTY:
             if (record->event.pressed) {
@@ -231,5 +315,3 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
     return true;
 }
-
-#endif // OLED_ENABLE
