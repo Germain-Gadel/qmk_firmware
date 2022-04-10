@@ -21,11 +21,8 @@ enum layers {
 #define CTL_X LCTL_T(KC_X)
 #define CTL_BC LCTL_T(KC_RBRC)
 #define LGUIT_C LGUI_T(KC_C)
-#define LGUIT_D LGUI_T(KC_D)
 #define ALT_V LALT_T(KC_V)
 #define ALT_M RALT_T(KC_M)
-#define ALT_D RALT_T(KC_D)
-#define ALT_H RALT_T(KC_H)
 #define ALT_F12 RALT_T(KC_F12)
 #define GUI_COMM RGUI_T(KC_COMM)
 #define CLT_DOT RCTL_T(KC_DOT)
@@ -75,7 +72,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* Symbols
  * ,----------------------------------.        ,----------------------------------.
- * |   `  |      |   _  |   +  |      |        |      |      |      |      |      |
+ * |   `  |      |   _  |   +  |   \  |        |      |      |      |      |      |
  * |------+------+------+------+------|        |------+------+------+------+------|
  * |   {  |   }  |   -  |   =  |      |        |      |      |      |      |      |
  * |------+------+------+------+------|        |------+------+------+------+------|
@@ -86,7 +83,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 
 [_SYM] = LAYOUT_split_3x5_3(
-    KC_GRV,   KC_TRNS,  KC_UNDS,  KC_PLUS,   KC_TRNS,    KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_TRNS,
+    KC_GRV,   KC_TRNS,  KC_UNDS,  KC_PLUS,   KC_BSLS,    KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_TRNS,
     KC_LCBR,  KC_RCBR,  KC_MINUS, KC_EQUAL,  KC_TRNS,    KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_TRNS,
     SFT_BC,   CTL_BC,   KC_LPRN,  KC_RPRN,   KC_TRNS,    KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_TRNS,
                         KC_TRNS,  KC_TRNS,   KC_TRNS,    KC_TRNS,  KC_TRNS,  KC_TRNS

@@ -29,21 +29,21 @@ enum layers {
 enum custom_keycodes {
     QWERTY = SAFE_RANGE,
     COLEMAK,
-    INFO,
-    CLEAR_O
 };
 
 enum {
     TD_Q_ESC
 };
 
-#define FN1 LT(_SYM, KC_ESC)
-#define FN2 LT(_NUM, KC_TAB)
-#define FN3 MO(_ARROWS)
-#define FN4 LT(_MEDIA, KC_ENT)
+#define F_SYN LT(_SYM, KC_ESC)
+#define F_NUM LT(_NUM, KC_TAB)
+#define F_ARR MO(_ARROWS)
+#define F_MED LT(_MEDIA, KC_ENT)
 #define SFT_Z LSFT_T(KC_Z)
+#define SFT_BC LSFT_T(KC_LBRC)
+#define CTL_BC LCTL_T(KC_RBRC)
 #define CTL_X LCTL_T(KC_X)
-#define LGUIT_X LGUI_T(KC_C)
+#define LGUIT_C LGUI_T(KC_C)
 #define ALT_V LALT_T(KC_V)
 #define ALT_M RALT_T(KC_M)
 #define ALT_F12 RALT_T(KC_F12)
@@ -63,15 +63,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------|        |------+------+------+------+------|
  * |   Z  |   X  |   C  |   V  |   B  |        |   N  |   M  |   ,  |   .  |   /  |
  * `-------------+------+------+------|        |------+------+------+-------------'
- *               |  Fn1 |  Fn2 | Space|        | Bspc |  Fn3 |  Fn4 |
+ *               |F_SYN |F_NUM | Space|        | Bspc |F_ARR |F_MED |
  *               `--------------------'        `--------------------'
  */
 
 [_QWERTY] = LAYOUT_split_3x5_3(
     Q_ESC,  KC_W,    KC_E,    KC_R,   KC_T,    KC_Y,    KC_U,    KC_I,     KC_O,     KC_P,
     NAV_A,  KC_S,    KC_D,    KC_F,   KC_G,    KC_H,    KC_J,    KC_K,     KC_L,     KC_SCLN,
-    SFT_Z,  CTL_X,   LGUIT_X, ALT_V,  KC_B,    KC_N,    ALT_M,   GUI_COMM, CLT_DOT,  SFT_SLH,
-                     FN1,     FN2,    KC_SPC,  KC_BSPC, FN3,     FN4
+    SFT_Z,  CTL_X,   LGUIT_C, ALT_V,  KC_B,    KC_N,    ALT_M,   GUI_COMM, CLT_DOT,  SFT_SLH,
+                     F_SYN,     F_NUM,    KC_SPC,  KC_BSPC, F_ARR,     F_MED
 ),
 
 /*
@@ -82,15 +82,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------|        |------+------+------+------+------|
  * |   Z  |   X  |   C  |   V  |   B  |        |   K  |   M  |   ,  |   .  |   /  |
  * `-------------+------+------+------|        |------+------+------+-------------'
- *               |  Fn1 |  Fn2 | Space|        | Bspc |  Fn3 |  Fn4 |
+ *               |F_SYN |F_NUM | Space|        | Bspc |F_ARR |F_MED |
  *               `--------------------'        `--------------------'
  */
 
 [_COLEMAK] = LAYOUT_split_3x5_3(
     Q_ESC,   KC_W,    KC_F,    KC_P,    KC_G,    KC_J,    KC_L,    KC_U,     KC_Y,    KC_SCLN,
     KC_A,    KC_R,    KC_S,    KC_T,    KC_D,    KC_H,    KC_N,    KC_E,     KC_I,    KC_O,
-    SFT_Z,   CTL_X,   LGUIT_X, ALT_V,   KC_B,    KC_K,    ALT_M,   GUI_COMM, CLT_DOT, SFT_SLH,
-                      FN1,     FN2,     KC_SPC,  KC_BSPC, FN3,     FN4
+    SFT_Z,   CTL_X,   LGUIT_C, ALT_V,   KC_B,    KC_K,    ALT_M,   GUI_COMM, CLT_DOT, SFT_SLH,
+                      F_SYN,     F_NUM,     KC_SPC,  KC_BSPC, F_ARR,     F_MED
 ),
 
 /* F row
@@ -114,7 +114,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* Symbols
  * ,----------------------------------.        ,----------------------------------.
- * |   `  |      |   _  |   +  |      |        |      |      |      |      |      |
+ * |   `  |      |   _  |   +  |   \  |        |      |      |      |      |      |
  * |------+------+------+------+------|        |------+------+------+------+------|
  * |   {  |   }  |   -  |   =  |      |        |      |      |      |      |      |
  * |------+------+------+------+------|        |------+------+------+------+------|
@@ -125,9 +125,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 
 [_SYM] = LAYOUT_split_3x5_3(
-    KC_GRV,   KC_TRNS,  KC_UNDS,  KC_PLUS,   KC_TRNS,    KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_TRNS,
+    KC_GRV,   KC_TRNS,  KC_UNDS,  KC_PLUS,   KC_BSLS,    KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_TRNS,
     KC_LCBR,  KC_RCBR,  KC_MINUS, KC_EQUAL,  KC_TRNS,    KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_TRNS,
-    KC_LBRC,  KC_RBRC,  KC_LPRN,  KC_RPRN,   KC_TRNS,    KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_TRNS,
+    SFT_BC,   CTL_BC,   KC_LPRN,  KC_RPRN,   KC_TRNS,    KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_TRNS,
                         KC_TRNS,  KC_TRNS,   KC_TRNS,    KC_TRNS,  KC_TRNS,  KC_TRNS
 ),
 
@@ -158,7 +158,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------|        |------+------+------+------+------|
  * |      |      |COLEMK|      |      |        |      |      | Prev | Vol- | Next |
  * `-------------+------+------+------|        |------+------+------+-------------'
- *               | INFO |CLEARO|      |        | Play | Mute |      |
+ *               |      |      |      |        | Play | Mute |      |
  *               `--------------------'        `--------------------'
  */
 
@@ -166,7 +166,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     QWERTY,   KC_TRNS,  KC_TRNS,  RESET,     KC_TRNS,    KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_TRNS,
     KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_TRNS,    KC_TRNS,  KC_TRNS,  KC_MRWD,  KC_VOLU,   KC_MFFD,
     KC_TRNS,  KC_TRNS,  COLEMAK,  KC_TRNS,   KC_TRNS,    KC_TRNS,  KC_TRNS,  KC_MPRV,  KC_VOLD,   KC_MNXT,
-                        INFO,     CLEAR_O,   KC_TRNS,    KC_MPLY,  KC_MUTE,  KC_TRNS
+                        KC_TRNS,  KC_TRNS,   KC_TRNS,    KC_MPLY,  KC_MUTE,  KC_TRNS
 ),
 
 /* Navigation
