@@ -26,8 +26,8 @@
  *                  ROW2COL = ROW = Anode (+), COL = Cathode (-, marked on diode)
  *
  */
-#define MATRIX_COL_PINS { E6, D1, F4, F5, D2 }
-#define MATRIX_ROW_PINS { D3, D7, B6, B2 }
+#define MATRIX_COL_PINS { E6, D1, F4, F5, D3 }
+#define MATRIX_ROW_PINS { D2, D7, B6, B2 }
 #define UNUSED_PINS
 
 /* COL2ROW, ROW2COL */
@@ -39,12 +39,12 @@
 #define USE_SERIAL
 #define SOFT_SERIAL_PIN D0  // or D1, D2, D3, E6
 
-#define ENCODERS_PAD_A { B4 }
-#define ENCODERS_PAD_B { B5 }
-#define ENCODERS_PAD_A_RIGHT { B5 }
-#define ENCODERS_PAD_B_RIGHT { B4 }
-#define ENCODER_RESOLUTIONS { 2 }
-#define ENCODER_RESOLUTIONS_RIGHT { 2 }
+#define ENCODERS_PAD_A { B5 }
+#define ENCODERS_PAD_B { B4 }
+#define ENCODERS_PAD_A_RIGHT { B4 }
+#define ENCODERS_PAD_B_RIGHT { B5 }
+#define ENCODER_RESOLUTIONS { 4 }
+#define ENCODER_RESOLUTIONS_RIGHT { 4 }
 
 //#define LED_NUM_LOCK_PIN B0
 //#define LED_CAPS_LOCK_PIN B1

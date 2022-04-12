@@ -48,7 +48,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_Q,   KC_W,    KC_E,    KC_R,   KC_T,    KC_Y,    KC_U,    KC_I,     KC_O,     KC_P,
     NAV_A,  KC_S,    KC_D,    KC_F,   KC_G,    KC_H,    KC_J,    KC_K,     KC_L,     KC_SCLN,
     SFT_Z,  CTL_X,   LGUIT_C, ALT_V,  KC_B,    KC_N,    ALT_M,   GUI_COMM, CLT_DOT,  SFT_SLH,
-                     F_SYM,   F_NUM,  KC_SPC,  KC_BSPC, F_ARR,   F_MED
+            KC_BTN3, F_SYM,   F_NUM,  KC_SPC,  KC_BSPC, F_ARR,   F_MED,    KC_MUTE
 ),
 
 /* Numbers
@@ -67,7 +67,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_0,     KC_7,  KC_8,  KC_9,   KC_TRNS,    KC_F1,  KC_F2,   KC_F3,  KC_F4,   KC_F5,
     KC_TRNS,  KC_4,  KC_5,  KC_6,   KC_EQUAL,   KC_F6,  KC_F7,   KC_F8,  KC_F9,   KC_F10,
     KC_TRNS,  KC_1,  KC_2,  KC_3,   KC_MINUS,   KC_F11, ALT_F12, KC_TRNS, KC_TRNS, KC_TRNS,
-                     KC_PDOT, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
+            KC_TRNS, KC_PDOT, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
 ),
 
 /* Symbols
@@ -86,7 +86,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_GRV,   KC_TRNS,  KC_UNDS,  KC_PLUS,   KC_BSLS,    KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_TRNS,
     KC_LCBR,  KC_RCBR,  KC_MINUS, KC_EQUAL,  KC_TRNS,    KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_TRNS,
     SFT_BC,   CTL_BC,   KC_LPRN,  KC_RPRN,   KC_TRNS,    KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_TRNS,
-                        KC_TRNS,  KC_TRNS,   KC_TRNS,    KC_TRNS,  KC_TRNS,  KC_TRNS
+              KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_TRNS,    KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS
 ),
 
 /* Arrows
@@ -105,7 +105,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_TRNS,    KC_TRNS,  KC_LCBR,   KC_RCBR, KC_LBRC,   KC_RBRC,
     KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_TRNS,    KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_UP,     KC_QUOT,
     KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_TRNS,    KC_TRNS,  KC_TRNS,  KC_LEFT,  KC_DOWN,   KC_RIGHT,
-                        KC_TRNS,  KC_TRNS,   KC_TRNS,    KC_TRNS,  KC_TRNS,  KC_TRNS
+              KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_TRNS,    KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS
 ),
 
 /* Media
@@ -124,7 +124,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     RESET,    KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_TRNS,    KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_TRNS,
     KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_TRNS,    KC_TRNS,  KC_TRNS,  KC_MRWD,  KC_VOLU,   KC_MFFD,
     KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_TRNS,    KC_TRNS,  KC_TRNS,  KC_MPRV,  KC_VOLD,   KC_MNXT,
-                        KC_TRNS,  KC_TRNS,   KC_TRNS,    KC_MPLY,  KC_MUTE,  KC_TRNS
+              KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_TRNS,    KC_MPLY,  KC_MUTE,  KC_TRNS,  KC_TRNS
 ),
 
 /* Navigation
@@ -143,7 +143,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TRNS,  KC_TRNS,  KC_PGUP,  KC_PGDN,   KC_PSCR,    KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_TRNS,
     KC_TRNS,  KC_TRNS,  KC_HOME,  KC_END,    KC_PAUS,    KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_TRNS,
     KC_TRNS,  KC_TRNS,  KC_INS,   KC_DEL,    KC_SLCK,    KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_TRNS,
-                        KC_TRNS,  KC_TRNS,   KC_TRNS,    KC_TRNS,  KC_TRNS,  KC_TRNS
+              KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_TRNS,    KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS
 )
 
 };
@@ -151,46 +151,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 bool encoder_update_user(uint8_t index, bool clockwise) {
     if (index == 0) {
         if (clockwise) {
-            tap_code(KC_0);
+            tap_code(KC_WH_R);
         } else {
-            tap_code(KC_1);
+            tap_code(KC_WH_L);
         }
     } else if (index == 1) {
-        switch (get_highest_layer(layer_state)) {
-            case _QWERTY:
-                if (clockwise) {
-                    tap_code(KC_WH_D);
-                    tap_code(KC_WH_D);
-                    tap_code(KC_WH_D);
-                    tap_code(KC_WH_D);
-                    tap_code(KC_WH_D);
-                    tap_code(KC_WH_D);
-                } else {
-                    tap_code(KC_WH_U);
-                    tap_code(KC_WH_U);
-                    tap_code(KC_WH_U);
-                    tap_code(KC_WH_U);
-                    tap_code(KC_WH_U);
-                    tap_code(KC_WH_U);
-                }
-                break;
-            case _ARROWS:
-                if (clockwise) {
-                    tap_code(KC_VOLD);
-                } else {
-                    tap_code(KC_VOLU);
-                }
-                break;
-            case _NUM:
-                if (clockwise) {
-                    tap_code(KC_WH_L);
-                } else {
-                    tap_code(KC_WH_R);
-                }
-                break;
-            default:
-                // Nothing
-                break;
+        if (clockwise) {
+            tap_code(KC_VOLU);
+        } else {
+            tap_code(KC_VOLD);
         }
     }
     return true;
